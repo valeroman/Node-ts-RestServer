@@ -59,3 +59,6 @@ usar otra terminal y usar el comando:
 - tsc --watch
 
 git checkout -- .
+
+# Nota:
+Ejecutar el comando ```npm install``` para reconstruir los módulos de Node.
