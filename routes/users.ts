@@ -1,17 +1,38 @@
 import { Router } from 'express';
+import { check } from 'express-validator';
+
 import { usersGet, userPost, userPut, userPatch, userDelete } from '../controllers/users';
+import { isValidEmail, isValidRole, isValidUserById } from '../helpers/db-validators';
+import { validField } from '../middlewares/Valid-field';
+
 
 const router = Router();
 
 router.get('/', usersGet);
 
-router.post('/', userPost);
+router.post('/',[
+    check('name', 'The name is required').not().isEmpty(),
+    check('password', 'The password must be 6 letters').isLength({ min: 6 }),
+    check('email', 'The email is not valid').isEmail(),
+    check('email').custom(isValidEmail),
+    // check('role', 'The role is not valid').isIn(['ADMIN_ROLE', 'USER_ROLE']),
+    check('role').custom(isValidRole),
+    validField
+], userPost);
 
-router.put('/:id', userPut);
+router.put('/:id', [
+    check('id', 'ID not valid').isMongoId(),
+    check('id').custom(isValidUserById),
+    validField
+], userPut);
 
 router.patch('/', userPatch);
 
-router.delete('/', userDelete);
+router.delete('/:id', [
+    check('id', 'ID not valid').isMongoId(),
+    check('id').custom(isValidUserById),
+    validField
+], userDelete);
 
 export default router;
 

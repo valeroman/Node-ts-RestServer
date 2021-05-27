@@ -1,35 +1,61 @@
 import { Request, Response } from "express";
+import bcryptjs from 'bcryptjs';
+
+import User from '../models/user';
 
 
-export const usersGet = (req: Request, res: Response) => {
 
-    const { apiKey, limit = 1 } = req.query;
+export const usersGet = async(req: Request, res: Response) => {
+
+    const { limite = 5, desde = 0 } = req.query;
+    const query = { status: true };
+
+    const [ total, users ] = await Promise.all([
+        User.countDocuments(query),
+        User.find(query)
+            .skip(Number(desde))
+            .limit(Number(limite))
+    ]);
 
     res.json({
-        msg: 'get API - controller',
-        apiKey,
-        limit
+        total,
+        users
     });
 }
 
-export const userPost = (req: Request, res: Response) => {
+export const userPost = async(req: Request, res: Response) => {
 
-    const { nombre, edad } = req.body;
+    const { name, email, password, role} = req.body;
+    const user = new User({ name, email, password, role });
+
+    // Encriptar password
+    const salt = bcryptjs.genSaltSync();
+    user.password = bcryptjs.hashSync(password, salt);
+
+    // Guardar en BD
+    await user.save();
 
     res.json({
-        msg: 'post API - controller',
-        nombre,
-        edad
+        user
     });
 }
 
-export const userPut = (req: Request, res: Response) => {
+export const userPut = async(req: Request, res: Response) => {
 
     const { id } = req.params;
+    const { _id, password, google, email, ...resto } = req.body;
+
+    if (password) {
+        // Encriptar password
+        const salt = bcryptjs.genSaltSync();
+        resto.password = bcryptjs.hashSync(password, salt);
+    }
+
+    const user = await User.findByIdAndUpdate(id, resto);
 
     res.json({
         msg: 'put API - controller',
-        id
+        user
     });
 }
 
@@ -40,10 +66,12 @@ export const userPatch = (req: Request, res: Response) => {
     });
 }
 
-export const userDelete = (req: Request, res: Response) => {
+export const userDelete = async(req: Request, res: Response) => {
 
-    res.json({
-        msg: 'delete API - controller'
-    });
+    const { id } = req.params;
+
+    const user = await User.findByIdAndUpdate(id, { status: false });
+
+    res.json(user);
 }
 

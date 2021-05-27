@@ -62,3 +62,7 @@ git checkout -- .
 
 # Nota:
 Ejecutar el comando ```npm install``` para reconstruir los módulos de Node.
+
+# Instalar Mongoose
+- npm i mongoose
+- npm i @types/mongoose --save-dev
