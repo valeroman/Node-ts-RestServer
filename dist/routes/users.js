@@ -5,12 +5,6 @@ const express_validator_1 = require("express-validator");
 const validate_jwt_1 = require("../middlewares/validate-jwt");
 const valid_role_1 = require("../middlewares/valid-role");
 const valid_field_1 = require("../middlewares/valid-field");
-// import {
-//     validField,
-//     validateJWT,
-//     isAdminRole,
-//     tieneRole
-//  } from '../middlewares/index'; 
 const users_1 = require("../controllers/users");
 const db_validators_1 = require("../helpers/db-validators");
 const router = express_1.Router();
