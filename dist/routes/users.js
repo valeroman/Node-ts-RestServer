@@ -5,7 +5,7 @@ const express_validator_1 = require("express-validator");
 // import { validateJWT } from '../middlewares/validate-jwt';
 // import { isAdminRole, tieneRole } from '../middlewares/valid-role';
 // import { validField } from '../middlewares/valid-field';
-const middlewares_1 = require("../middlewares");
+const index_1 = require("../middlewares/index");
 const users_1 = require("../controllers/users");
 const db_validators_1 = require("../helpers/db-validators");
 const router = express_1.Router();
@@ -17,21 +17,21 @@ router.post('/', [
     express_validator_1.check('email').custom(db_validators_1.isValidEmail),
     // check('role', 'The role is not valid').isIn(['ADMIN_ROLE', 'USER_ROLE']),
     express_validator_1.check('role').custom(db_validators_1.isValidRole),
-    middlewares_1.validField
+    index_1.validField
 ], users_1.userPost);
 router.put('/:id', [
     express_validator_1.check('id', 'ID not valid').isMongoId(),
     express_validator_1.check('id').custom(db_validators_1.isValidUserById),
-    middlewares_1.validField
+    index_1.validField
 ], users_1.userPut);
 router.patch('/', users_1.userPatch);
 router.delete('/:id', [
-    middlewares_1.validateJWT,
+    index_1.validateJWT,
     // isAdminRole,
-    middlewares_1.tieneRole(['ADMIN_ROLE', 'SALES_ROLE', 'OTHER_ROLE']),
+    index_1.tieneRole(['ADMIN_ROLE', 'SALES_ROLE', 'OTHER_ROLE']),
     express_validator_1.check('id', 'ID not valid').isMongoId(),
     express_validator_1.check('id').custom(db_validators_1.isValidUserById),
-    middlewares_1.validField
+    index_1.validField
 ], users_1.userDelete);
 exports.default = router;
 //# sourceMappingURL=users.js.map

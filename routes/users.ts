@@ -10,7 +10,7 @@ import {
     validateJWT,
     isAdminRole,
     tieneRole
- } from '../middlewares' 
+ } from '../middlewares/index'; 
 
 import { usersGet, userPost, userPut, userPatch, userDelete } from '../controllers/users';
 import { isValidEmail, isValidRole, isValidUserById } from '../helpers/db-validators';

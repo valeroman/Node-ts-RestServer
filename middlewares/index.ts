@@ -1,4 +1,4 @@
 
-export * from './validate-jwt';
-export * from './valid-role';
-export * from './valid-field';
+export * from '../middlewares/validate-jwt';
+export * from '../middlewares/valid-role';
+export * from '../middlewares/valid-field';
