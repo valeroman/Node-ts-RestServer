@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
-const validField = (req: Request, res: Response, next: any) => {
+export const validField = (req: Request, res: Response, next: any) => {
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -12,4 +12,3 @@ const validField = (req: Request, res: Response, next: any) => {
 
 }
 
-export default validField;

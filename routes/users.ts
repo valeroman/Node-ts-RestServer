@@ -3,7 +3,7 @@ import { check } from 'express-validator';
 
 import { validateJWT } from '../middlewares/validate-jwt';
 import { isAdminRole, tieneRole } from '../middlewares/valid-role';
-import validField from '../middlewares/valid-field';
+import { validField } from '../middlewares/Valid-field';
 
 import { usersGet, userPost, userPut, userPatch, userDelete } from '../controllers/users';
 import { isValidEmail, isValidRole, isValidUserById } from '../helpers/db-validators';

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 import { login } from '../controllers/auth';
-import validField  from '../middlewares/valid-field';
+import { validField }  from '../middlewares/Valid-field';
 
 const router = Router();
 
