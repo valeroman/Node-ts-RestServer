@@ -1,16 +1,16 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 
-// import { validateJWT } from '../middlewares/validate-jwt';
-// import { isAdminRole, tieneRole } from '../middlewares/valid-role';
-// import { validField } from '../middlewares/valid-field';
+import { validateJWT } from '../middlewares/validate-jwt';
+import { isAdminRole, tieneRole } from '../middlewares/valid-role';
+import { validField } from '../middlewares/valid-field';
 
-import {
-    validField,
-    validateJWT,
-    isAdminRole,
-    tieneRole
- } from '../middlewares/index'; 
+// import {
+//     validField,
+//     validateJWT,
+//     isAdminRole,
+//     tieneRole
+//  } from '../middlewares/index'; 
 
 import { usersGet, userPost, userPut, userPatch, userDelete } from '../controllers/users';
 import { isValidEmail, isValidRole, isValidUserById } from '../helpers/db-validators';
