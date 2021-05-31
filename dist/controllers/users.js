@@ -74,6 +74,8 @@ exports.userPatch = (req, res) => {
 exports.userDelete = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const user = yield user_1.default.findByIdAndUpdate(id, { status: false });
+    // const usuarioAutenticado = req.user;
     res.json(user);
+    // res.json(user);
 });
 //# sourceMappingURL=users.js.map

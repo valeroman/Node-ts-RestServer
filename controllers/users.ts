@@ -72,6 +72,10 @@ export const userDelete = async(req: Request, res: Response) => {
 
     const user = await User.findByIdAndUpdate(id, { status: false });
 
+    // const usuarioAutenticado = req.user;
+
     res.json(user);
+
+    // res.json(user);
 }
 

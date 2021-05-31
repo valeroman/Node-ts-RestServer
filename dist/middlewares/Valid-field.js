@@ -9,4 +9,4 @@ exports.validField = (req, res, next) => {
     }
     next();
 };
-//# sourceMappingURL=Valid-field.js.map
+//# sourceMappingURL=valid-field.js.map

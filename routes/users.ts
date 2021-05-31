@@ -1,9 +1,21 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 
+// import { validateJWT } from '../middlewares/validate-jwt';
+// import { isAdminRole, tieneRole } from '../middlewares/valid-role';
+// import { validField } from '../middlewares/valid-field';
+
+import {
+    validField,
+    validateJWT,
+    isAdminRole,
+    tieneRole
+ } from '../middlewares' 
+
 import { usersGet, userPost, userPut, userPatch, userDelete } from '../controllers/users';
 import { isValidEmail, isValidRole, isValidUserById } from '../helpers/db-validators';
-import { validField } from '../middlewares/Valid-field';
+
+
 
 
 const router = Router();
@@ -29,6 +41,9 @@ router.put('/:id', [
 router.patch('/', userPatch);
 
 router.delete('/:id', [
+    validateJWT,
+    // isAdminRole,
+    tieneRole(['ADMIN_ROLE', 'SALES_ROLE', 'OTHER_ROLE']),
     check('id', 'ID not valid').isMongoId(),
     check('id').custom(isValidUserById),
     validField

@@ -15,10 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const users_1 = __importDefault(require("../routes/users"));
+const auth_1 = __importDefault(require("../routes/auth"));
 const config_1 = require("../database/config");
 class Server {
     constructor() {
         this.usersPath = '/api/users';
+        this.authPath = '/api/auth';
         this.app = express_1.default();
         this.port = process.env.PORT || '7001';
         // Conectar a base de datos
@@ -42,6 +44,7 @@ class Server {
         this.app.use(express_1.default.static('public'));
     }
     routes() {
+        this.app.use(this.authPath, auth_1.default);
         this.app.use(this.usersPath, users_1.default);
     }
     listen() {

@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 import userRoutes from '../routes/users';
+import authRoutes from '../routes/auth'
 import { dbConnection } from '../database/config';
 
 class Server {
@@ -8,7 +9,8 @@ class Server {
     // propiedades
     private app: Application;
     private port: string;
-    private usersPath = '/api/users'
+    private usersPath = '/api/users';
+    private authPath = '/api/auth';
     
     
 
@@ -44,6 +46,8 @@ class Server {
     }
 
     routes() {
+
+        this.app.use(this.authPath, authRoutes);
         this.app.use(this.usersPath, userRoutes);
     }
 
