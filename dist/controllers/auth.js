@@ -12,10 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = void 0;
+exports.googleSignin = exports.login = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const user_1 = __importDefault(require("../models/user"));
 const generate_jwt_1 = require("../helpers/generate-jwt");
+const google_verify_1 = require("../helpers/google-verify");
 exports.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     try {
@@ -50,6 +51,42 @@ exports.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log(error);
         res.status(500).json({
             msg: 'Hable con el administrador'
+        });
+    }
+});
+exports.googleSignin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id_token } = req.body;
+    try {
+        const { name, email, img } = yield google_verify_1.googleVerify(id_token);
+        let user = yield user_1.default.findOne({ email });
+        if (!user) {
+            // Create user
+            const data = {
+                name,
+                email,
+                password: ':p',
+                img,
+                google: true
+            };
+            user = new user_1.default(data);
+            yield user.save();
+        }
+        // Si el usuario en BD tiene estado false
+        if (!user.status) {
+            return res.status(401).json({
+                msg: 'Hable con el administrador, usuario bloquiado'
+            });
+        }
+        // Generar el JWT
+        const token = yield generate_jwt_1.generateJWT(user.id);
+        res.json({
+            user,
+            token
+        });
+    }
+    catch (error) {
+        res.status(400).json({
+            msg: 'Token de Google no es valido'
         });
     }
 });
