@@ -8,28 +8,36 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isValidUserById = exports.isValidEmail = exports.isValidRole = void 0;
-const user_1 = __importDefault(require("../models/user"));
-const role_1 = __importDefault(require("../models/role"));
+exports.isValidProductById = exports.isValidCategoryById = exports.isValidUserById = exports.isValidEmail = exports.isValidRole = void 0;
+const models_1 = require("../models");
 exports.isValidRole = (role = '') => __awaiter(void 0, void 0, void 0, function* () {
-    const existRole = yield role_1.default.findOne({ role });
+    const existRole = yield models_1.Role.findOne({ role });
     if (!existRole) {
         throw new Error(`The role ${role}, is not registered in the DB`);
     }
 });
 exports.isValidEmail = (email = '') => __awaiter(void 0, void 0, void 0, function* () {
-    const existeEmail = yield user_1.default.findOne({ email });
+    const existeEmail = yield models_1.User.findOne({ email });
     if (existeEmail) {
         throw new Error(`The email: ${email}, is already registered`);
     }
 });
 exports.isValidUserById = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const existeUser = yield user_1.default.findById(id);
+    const existeUser = yield models_1.User.findById(id);
     if (!existeUser) {
+        throw new Error(`The ID: ${id}, not exist`);
+    }
+});
+exports.isValidCategoryById = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const existCategory = yield models_1.Category.findById(id);
+    if (!existCategory) {
+        throw new Error(`The ID: ${id}, not exist`);
+    }
+});
+exports.isValidProductById = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const existProduct = yield models_1.Product.findById(id);
+    if (!existProduct) {
         throw new Error(`The ID: ${id}, not exist`);
     }
 });

@@ -1,7 +1,11 @@
 import express, { Application } from 'express';
 import cors from 'cors';
+
 import userRoutes from '../routes/users';
 import authRoutes from '../routes/auth'
+import categoryRoutes from '../routes/category';
+import productRoutes from '../routes/product';
+import searchRoutes from '../routes/search';
 import { dbConnection } from '../database/config';
 
 class Server {
@@ -9,8 +13,13 @@ class Server {
     // propiedades
     private app: Application;
     private port: string;
-    private usersPath = '/api/users';
-    private authPath = '/api/auth';
+    private paths = {
+        auth: '/api/auth',
+        user: '/api/users',
+        categories: '/api/categories',
+        products: '/api/products',
+        search: '/api/search'
+    }
     
     
 
@@ -47,8 +56,11 @@ class Server {
 
     routes() {
 
-        this.app.use(this.authPath, authRoutes);
-        this.app.use(this.usersPath, userRoutes);
+        this.app.use(this.paths.auth, authRoutes);
+        this.app.use(this.paths.categories, categoryRoutes);
+        this.app.use(this.paths.products, productRoutes);
+        this.app.use(this.paths.user, userRoutes);
+        this.app.use(this.paths.search, searchRoutes);
     }
 
     listen() {
