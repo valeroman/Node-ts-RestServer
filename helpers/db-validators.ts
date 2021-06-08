@@ -40,3 +40,13 @@ export const isValidProductById = async(id: string) => {
         throw new Error(`The ID: ${ id }, not exist`)
     }
 }
+
+export const collectionsAllowed = (coleccion = '', colecciones: String[] = []) => {
+
+    const incluida = colecciones.includes(coleccion);
+    if (!incluida) {
+        throw new Error(`The colections ${ coleccion } is not allowed, ${ colecciones }`);
+    }
+
+    return true;
+}

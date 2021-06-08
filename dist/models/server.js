@@ -14,11 +14,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const users_1 = __importDefault(require("../routes/users"));
 const auth_1 = __importDefault(require("../routes/auth"));
 const category_1 = __importDefault(require("../routes/category"));
 const product_1 = __importDefault(require("../routes/product"));
 const search_1 = __importDefault(require("../routes/search"));
+const uploads_1 = __importDefault(require("../routes/uploads"));
 const config_1 = require("../database/config");
 class Server {
     constructor() {
@@ -27,7 +29,8 @@ class Server {
             user: '/api/users',
             categories: '/api/categories',
             products: '/api/products',
-            search: '/api/search'
+            search: '/api/search',
+            uploads: '/api/uploads',
         };
         this.app = express_1.default();
         this.port = process.env.PORT || '7001';
@@ -50,6 +53,12 @@ class Server {
         this.app.use(express_1.default.json());
         // Directorio publico
         this.app.use(express_1.default.static('public'));
+        // Fileupload - file upload
+        this.app.use(express_fileupload_1.default({
+            useTempFiles: true,
+            tempFileDir: '/tmp/',
+            createParentPath: true
+        }));
     }
     routes() {
         this.app.use(this.paths.auth, auth_1.default);
@@ -57,6 +66,7 @@ class Server {
         this.app.use(this.paths.products, product_1.default);
         this.app.use(this.paths.user, users_1.default);
         this.app.use(this.paths.search, search_1.default);
+        this.app.use(this.paths.uploads, uploads_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {

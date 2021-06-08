@@ -58,6 +58,9 @@ const ProductSchema = new mongoose_1.Schema({
     ratings: {
         type: Number,
         default: 0
+    },
+    img: {
+        type: String
     }
 });
 ProductSchema.methods.toJSON = function () {

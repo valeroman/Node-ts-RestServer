@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isValidProductById = exports.isValidCategoryById = exports.isValidUserById = exports.isValidEmail = exports.isValidRole = void 0;
+exports.collectionsAllowed = exports.isValidProductById = exports.isValidCategoryById = exports.isValidUserById = exports.isValidEmail = exports.isValidRole = void 0;
 const models_1 = require("../models");
 exports.isValidRole = (role = '') => __awaiter(void 0, void 0, void 0, function* () {
     const existRole = yield models_1.Role.findOne({ role });
@@ -41,4 +41,11 @@ exports.isValidProductById = (id) => __awaiter(void 0, void 0, void 0, function*
         throw new Error(`The ID: ${id}, not exist`);
     }
 });
+exports.collectionsAllowed = (coleccion = '', colecciones = []) => {
+    const incluida = colecciones.includes(coleccion);
+    if (!incluida) {
+        throw new Error(`The colections ${coleccion} is not allowed, ${colecciones}`);
+    }
+    return true;
+};
 //# sourceMappingURL=db-validators.js.map
